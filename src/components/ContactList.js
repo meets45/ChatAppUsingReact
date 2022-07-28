@@ -24,25 +24,18 @@ export const ContactList = (props) => {
   const [showContacts, setShowContacts] = useState(false);
   const [contacts, setContacts] = useState([]);
   const [contactList, setContactlist] = useState([]);
-  const [commonGroups, setCommonGroups] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     getAllContacts(user, navigate, setContacts);
+    const getContacts = async () => {
+      const commonGroups = await getCommonGroups(user);
+      const contactsResponse = await getContactsWithConversation(commonGroups);
+      setContactlist(contactsResponse);
+    };
+    getContacts();
     //eslint-disable-next-line
   }, []);
-
-  // useEffect(() => {
-
-  const getNames = async () => {
-    getCommonGroups(user, setCommonGroups, commonGroups);
-    getContactsWithConversation(commonGroups, setContactlist, contactList);
-    // please check console window the code above creates problem
-
-    //eslint-disable-next-line
-    // }, []);
-  };
-
   const ContactComponent = (props) => {
     const { data, setSelectedChat } = props;
     const [img, setImg] = useState([]);
@@ -102,9 +95,6 @@ export const ContactList = (props) => {
             <SearchInput placeholder="Search or start a new chat" />
           </SearchContainer>
         </SearchBox>
-        <button className="btn btn-primary" onClick={getNames}>
-          Click
-        </button>
         {!showContacts
           ? contactList.map((data) => (
               <ContactComponent
