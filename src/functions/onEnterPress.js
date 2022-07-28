@@ -12,7 +12,7 @@ export const onEnterPress = async (
   shareImg,
   setShareImg
 ) => {
-  if (event.key === "Enter" && text.length > 0) {
+  if (event.key === "Enter" && (text.length > 0 || shareImg)) {
     await setDoc(doc(db, `chats/${id}/members`, user1), {
       addedAt: new Date().toLocaleString(),
       role: "admin",

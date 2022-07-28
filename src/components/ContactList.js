@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { DashboardNavbar } from "../components/DashboardNavbar";
-import { storage } from "../firebaseConfig";
-import { getDownloadURL, ref } from "firebase/storage";
 import {
   ContactInfo,
   ContactItem,
@@ -18,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { getAllContacts } from "../functions/getAllContacts";
 import { getCommonGroups } from "../functions/getCommonGroups";
 import { getContactsWithConversation } from "../functions/getContactsWithConversation";
+import { getImgFromURL } from "../functions/getImgFromURL";
+import profile from "../assets/profile.png";
 
 export const ContactList = (props) => {
   const user = useSelector((state) => state.user[0]);
@@ -38,17 +38,13 @@ export const ContactList = (props) => {
   }, []);
   const ContactComponent = (props) => {
     const { data, setSelectedChat } = props;
-    const [img, setImg] = useState([]);
-    const imgRef = ref(storage, `profilePhotos/${data.profilePic}`);
-    const getImg = async () => {
-      let imgSet = await getDownloadURL(imgRef);
-      setImg(imgSet);
-    };
-    getImg();
+    const [img, setImg] = useState("");
+    const [loading, setLoading] = useState(true);
+    getImgFromURL(data.profilePic, setImg, setLoading);
     data.name = data.firstname + " " + data.lastname;
     return (
       <ContactItem onClick={() => setSelectedChat(data)}>
-        <ProfileIcon src={img} />
+        <ProfileIcon src={loading ? profile : img} />
         <ContactInfo>
           <ContactName>{data.name}</ContactName>
           {/* <MessageText>{msg?.text}</MessageText> */}
@@ -60,17 +56,13 @@ export const ContactList = (props) => {
 
   const ContactListComponent = (props) => {
     const { data, setSelectedChat } = props;
-    const [img, setImg] = useState([]);
-    const imgRef = ref(storage, `profilePhotos/${data.profilePic}`);
-    const getImg = async () => {
-      let imgSet = await getDownloadURL(imgRef);
-      setImg(imgSet);
-    };
-    getImg();
+    const [img, setImg] = useState("");
+    const [loading, setLoading] = useState(true);
+    getImgFromURL(data.profilePic, setImg, setLoading);
     data.name = data.firstname + " " + data.lastname;
     return (
       <ContactItem onClick={() => setSelectedChat(data)} key={data.name}>
-        <ProfileIcon src={img} />
+        <ProfileIcon src={loading ? profile : img} />
         <ContactInfo>
           <ContactName>{data.name}</ContactName>
           {/* <MessageText>{msg?.text}</MessageText> */}

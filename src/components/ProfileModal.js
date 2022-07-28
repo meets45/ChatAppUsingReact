@@ -7,7 +7,7 @@ export const ProfileModal = ({
   selectedChat,
   img,
 }) => {
-  let addModal = showProfile ? (
+  let profileModal = showProfile ? (
     <div
       className="modal fade show"
       tabIndex="-1"
@@ -58,5 +58,5 @@ export const ProfileModal = ({
     </div>
   ) : null;
 
-  return addModal;
+  return profileModal;
 };

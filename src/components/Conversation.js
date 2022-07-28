@@ -18,6 +18,8 @@ import { onEnterPress } from "../functions/onEnterPress";
 import { getImgFromURL } from "../functions/getImgFromURL";
 import { getDate } from "../functions/basicFunctions";
 import { getMessages } from "../functions/getMessages";
+import { ImageModal } from "./ImageModal";
+import profile from "../assets/profile.png";
 
 export const Conversation = (props) => {
   const { selectedChat } = props;
@@ -26,7 +28,10 @@ export const Conversation = (props) => {
   const [messageList, setMessageList] = useState([]);
   const [img, setImg] = useState([]);
   const [showProfile, setShowProfile] = useState(false);
+  const [showImage, setShowImage] = useState(false);
   const [shareImg, setShareImg] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [modalImg, setModalImg] = useState("");
   const user = useSelector((state) => state.user[0]);
   const scrollRef = useRef();
 
@@ -61,7 +66,7 @@ export const Conversation = (props) => {
     setText(text + emojiObj.emoji);
   };
 
-  getImgFromURL(selectedChat.profilePic, setImg);
+  getImgFromURL(selectedChat.profilePic, setImg, setLoading);
 
   return (
     <Container>
@@ -72,11 +77,17 @@ export const Conversation = (props) => {
           setShowProfile={setShowProfile}
           img={img}
         />
+        <ImageModal
+          showImage={showImage}
+          setShowImage={setShowImage}
+          img={modalImg}
+        />
         <ProfileIcon
-          src={img}
+          src={loading ? profile : img}
           onClick={() => {
             setShowProfile(true);
           }}
+          className="cursor"
         />
         {selectedChat.name}
       </ProfileHeader>
@@ -93,9 +104,13 @@ export const Conversation = (props) => {
                   <img
                     src={message.media}
                     alt={message.text}
+                    className="cursor"
+                    onClick={() => {
+                      setShowImage(true);
+                      setModalImg(message.media);
+                    }}
                     width="100%"
                     height="90%"
-                    // style={{ padding: "5px" }}
                   />
                 </div>
               ) : null}
@@ -134,7 +149,7 @@ export const Conversation = (props) => {
                 />
                 <span className="c-pointer">
                   <span className="icon-edit-text">
-                    <i className="fa-solid fa-paperclip fs-4"></i>
+                    <i className="fa-solid fa-paperclip fs-4 cursor"></i>
                   </span>
                 </span>
               </label>

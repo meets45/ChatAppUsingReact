@@ -11,28 +11,28 @@ import { useEffect, useState } from "react";
 import profileBackground from "../assets/fluid.png";
 import profileEditBackground from "../assets/liquid.png";
 import { Link, useNavigate } from "react-router-dom";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes } from "firebase/storage";
+import { getImgFromURL } from "../functions/getImgFromURL";
+import profile from "../assets/profile.png";
+import { ImageModal } from "./ImageModal";
 
 export const Profile = () => {
   let navigate = useNavigate();
   let dispatch = useDispatch();
 
   const user = useSelector((state) => state.user[0]);
-  const imgRef = ref(storage, `profilePhotos/${user.profilePic}`);
   const [uploadImage, setImageUpload] = useState(null);
-  const [img, setImg] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [img, setImg] = useState("");
   const [message, setMessage] = useState("");
   const [exUsers, setexUsers] = useState([]);
   const [show, setShow] = useState(false);
-
+  const [showImage, setShowImage] = useState(false);
   useEffect(() => {
     if (user === 0) {
       navigate("/login");
     }
-    const getImg = async () => {
-      let imgSet = await getDownloadURL(imgRef);
-      setImg(imgSet);
-    };
+    getImgFromURL(user.profilePic, setImg, setLoading);
     const getUser = async () => {
       const userCollectionRef = collection(db, "users");
       const data = await getDocs(userCollectionRef);
@@ -40,7 +40,6 @@ export const Profile = () => {
         setexUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.uid })));
       }, 1000);
     };
-    getImg();
     getUser();
     //eslint-disable-next-line
   }, []);
@@ -112,15 +111,24 @@ export const Profile = () => {
                   borderBottomLeftRadius: ".5rem",
                 }}
               >
+                <ImageModal
+                  showImage={showImage}
+                  setShowImage={setShowImage}
+                  img={img}
+                />
                 <img
-                  src={img}
+                  src={loading ? profile : img}
                   alt="No Photo"
-                  className="img-fluid mb-2 my-5"
+                  className="img-fluid mb-2 my-5 cursor"
+                  title="View Profile Photo"
                   style={{
                     width: "8rem",
                     height: "8rem",
                     objectFit: "cover",
                     borderRadius: "50%",
+                  }}
+                  onClick={() => {
+                    setShowImage(true);
                   }}
                 />
                 <h5>{user.username}</h5>
@@ -229,7 +237,7 @@ export const Profile = () => {
                             <span className="c-pointer">
                               <span className="icon-edit-text">
                                 <img
-                                  src={img}
+                                  src={img === "" ? profile : img}
                                   alt="No Photo"
                                   className="img-fluid mb-2 cursor"
                                   style={{
@@ -245,13 +253,13 @@ export const Profile = () => {
                           </label>
                         </span>
                         <label
-                          className="fa fa-edit cursor fs-4 text-warning"
+                          className="fa fa-edit cursor fs-4 text-light"
                           style={{
                             position: "absolute",
                             marginTop: "115px",
                           }}
                           htmlFor="formId"
-                          title="Edit Profile"
+                          title="Edit Profile Photo"
                         ></label>
                       </div>
                     </div>
