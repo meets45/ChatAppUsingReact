@@ -1,7 +1,8 @@
 import React from "react";
 import { ContactIcon } from "./ConversationComponents";
+import profile from "../assets/profile.png";
 
-export const ImageModal = ({ showImage, setShowImage, img }) => {
+export const ImageModal = ({ showImage, setShowImage, img, loading }) => {
   let imgModal = showImage ? (
     <div
       className="modal fade show"
@@ -29,7 +30,7 @@ export const ImageModal = ({ showImage, setShowImage, img }) => {
           <div className="modal-body" style={{ border: "none" }}>
             <div className="row">
               <div className="d-flex justify-content-center align-items-center">
-                <ContactIcon src={img} alt="" />
+                <ContactIcon src={loading ? profile : img} alt="" />
               </div>
             </div>
           </div>

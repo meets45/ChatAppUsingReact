@@ -80,3 +80,17 @@ input.form-control:focus {
 .cursor {
   cursor: pointer;
 }
+
+.custom-tb {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  outline: none;
+}
+.custom-tb:focus {
+  border-bottom: 3px solid #6c63ff;
+}
+
+.scroll {
+  overflow-y: auto;
+}

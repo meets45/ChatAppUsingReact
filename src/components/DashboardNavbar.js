@@ -5,11 +5,13 @@ import { getImgFromURL } from "../functions/getImgFromURL";
 import signout from "../functions/signout";
 import { actionCreators } from "../state/index";
 import profile from "../assets/profile.png";
+import { GroupModal } from "./GroupModal";
 
 export const DashboardNavbar = (props) => {
   const user = useSelector((state) => state.user[0]);
   const [img, setImg] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showGroupModal, setShowGroupModal] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,6 +35,10 @@ export const DashboardNavbar = (props) => {
   getImgFromURL(user.profilePic, setImg, setLoading);
   return (
     <nav className="navbar navbar-expand-lg" style={{ background: "#ededed" }}>
+      <GroupModal
+        showGroupModal={showGroupModal}
+        setShowGroupModal={setShowGroupModal}
+      />
       <div className="container-fluid">
         <Link
           className="nav-link active fs-6"
@@ -49,6 +55,7 @@ export const DashboardNavbar = (props) => {
               objectFit: "cover",
               borderRadius: "50%",
             }}
+            title="View Profile"
           />
         </Link>
         <button
@@ -76,9 +83,16 @@ export const DashboardNavbar = (props) => {
             </li>
           </ul>
         </div>
-        <span className="justify-content-end">
+        <span className="justify-content-end align-items-center">
           <i
-            className="fa-regular fa-address-book fs-3 cursor me-1"
+            className="fa-solid fa-user-group fs-5 me-3 cursor"
+            onClick={() => {
+              setShowGroupModal(true);
+            }}
+            title="Create Group"
+          ></i>
+          <i
+            className="fa-regular fa-address-book fs-4 cursor me-1"
             onClick={() => {
               props.setShowContacts(!props.showContacts);
             }}
