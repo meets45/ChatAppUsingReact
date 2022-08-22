@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import Picker from "emoji-picker-react";
+import React, {useEffect, useRef, useState} from 'react'
+import styled from 'styled-components'
+import Picker from 'emoji-picker-react'
 import {
   ChatBox,
   ChatBoxContainer,
@@ -11,62 +11,62 @@ import {
   MessageTime,
   ProfileHeader,
   ProfileIcon,
-} from "./ConversationComponents";
-import { useSelector } from "react-redux";
-import { ProfileModal } from "./ProfileModal";
-import { onEnterPress } from "../functions/onEnterPress";
-import { getImgFromURL } from "../functions/getImgFromURL";
-import { getDate } from "../functions/basicFunctions";
-import { getMessages } from "../functions/getMessages";
-import { ImageModal } from "./ImageModal";
-import profile from "../assets/profile.png";
+} from './ConversationComponents'
+import {useSelector} from 'react-redux'
+import {ProfileModal} from './ProfileModal'
+import {onEnterPress} from '../functions/onEnterPress'
+import {getImgFromURL} from '../functions/getImgFromURL'
+import {getDate} from '../functions/basicFunctions'
+import {getMessages} from '../functions/getMessages'
+import {ImageModal} from './ImageModal'
+import profile from '../assets/profile.png'
 
 export const Conversation = (props) => {
-  const { selectedChat } = props;
-  const [text, setText] = useState("");
-  const [picker, setPicker] = useState(false);
-  const [messageList, setMessageList] = useState([]);
-  const [img, setImg] = useState([]);
-  const [showProfile, setShowProfile] = useState(false);
-  const [showImage, setShowImage] = useState(false);
-  const [shareImg, setShareImg] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [modalImg, setModalImg] = useState("");
-  const user = useSelector((state) => state.user[0]);
-  const scrollRef = useRef();
+  const {selectedChat} = props
+  const [text, setText] = useState('')
+  const [picker, setPicker] = useState(false)
+  const [messageList, setMessageList] = useState([])
+  const [img, setImg] = useState('')
+  const [showProfile, setShowProfile] = useState(false)
+  const [showImage, setShowImage] = useState(false)
+  const [shareImg, setShareImg] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [modalImg, setModalImg] = useState('')
+  const user = useSelector((state) => state.user[0])
+  const scrollRef = useRef()
 
-  const user1 = user.uid;
-  const user2 = selectedChat.id;
-  const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
+  const user1 = user.uid
+  const user2 = selectedChat.id
+  const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`
 
   useEffect(() => {
-    getMessages(id, setMessageList);
+    getMessages(id, setMessageList)
     //eslint-disable-next-line
-  }, []);
+  }, [])
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messageList]);
+    scrollRef.current?.scrollIntoView({behavior: 'smooth'})
+  }, [messageList])
 
   const MessageBlock = styled.div`
     display: flex;
-    justify-content: ${(props) => (props.sender ? "flex-end" : "flex-start")};
+    justify-content: ${(props) => (props.sender ? 'flex-end' : 'flex-start')};
     margin: 5px 15px;
-  `;
+  `
   const Message = styled.div`
     max-width: 50%;
     color: #303030;
     padding: 8px 10px;
     font-size: 14px;
     border-radius: 4px;
-    background: ${(props) => (props.sender ? "#daf8cb" : "white")};
-  `;
+    background: ${(props) => (props.sender ? '#daf8cb' : 'white')};
+  `
 
   const onEmojiClick = (event, emojiObj) => {
-    setText(text + emojiObj.emoji);
-  };
+    setText(text + emojiObj.emoji)
+  }
 
-  getImgFromURL(selectedChat.profilePic, setImg, setLoading);
+  getImgFromURL(selectedChat.profilePic, setImg, setLoading)
 
   return (
     <Container>
@@ -85,9 +85,9 @@ export const Conversation = (props) => {
         <ProfileIcon
           src={loading ? profile : img}
           onClick={() => {
-            setShowProfile(true);
+            setShowProfile(true)
           }}
-          className="cursor"
+          className='cursor'
         />
         {selectedChat.name}
       </ProfileHeader>
@@ -100,17 +100,17 @@ export const Conversation = (props) => {
           >
             <Message sender={message.sentBy === user.uid}>
               {message.media ? (
-                <div className="d-flex justify-content-center mb-2">
+                <div className='d-flex justify-content-center mb-2'>
                   <img
                     src={message.media}
                     alt={message.text}
-                    className="cursor"
+                    className='cursor'
                     onClick={() => {
-                      setShowImage(true);
-                      setModalImg(message.media);
+                      setShowImage(true)
+                      setModalImg(message.media)
                     }}
-                    width="100%"
-                    height="90%"
+                    width='100%'
+                    height='90%'
                   />
                 </div>
               ) : null}
@@ -124,32 +124,32 @@ export const Conversation = (props) => {
         {picker && (
           <Picker
             onEmojiClick={onEmojiClick}
-            pickerStyle={{ position: "absolute", bottom: "60px" }}
+            pickerStyle={{position: 'absolute', bottom: '60px'}}
           />
         )}
         <EmojiIcon>
           <i
-            className="fa-regular fa-face-grin-wide fs-4"
+            className='fa-regular fa-face-grin-wide fs-4'
             onClick={() => setPicker(!picker)}
           ></i>
         </EmojiIcon>
         <EmojiIcon>
-          <div className="d-flex justify-content-center">
+          <div className='d-flex justify-content-center'>
             <span>
-              <label htmlFor="formId" className="mb-0">
+              <label htmlFor='formId' className='mb-0'>
                 <input
-                  name=""
-                  type="file"
-                  id="formId"
-                  accept=".jpg, .png, .gif"
+                  name=''
+                  type='file'
+                  id='formId'
+                  accept='.jpg, .png, .gif'
                   hidden
                   onChange={(e) => {
-                    setShareImg(e.target.files[0]);
+                    setShareImg(e.target.files[0])
                   }}
                 />
-                <span className="c-pointer">
-                  <span className="icon-edit-text">
-                    <i className="fa-solid fa-paperclip fs-4 cursor"></i>
+                <span className='c-pointer'>
+                  <span className='icon-edit-text'>
+                    <i className='fa-solid fa-paperclip fs-4 cursor'></i>
                   </span>
                 </span>
               </label>
@@ -158,7 +158,7 @@ export const Conversation = (props) => {
         </EmojiIcon>
         <ChatBoxContainer>
           <ChatInput
-            placeholder="Type a message"
+            placeholder='Type a message'
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => {
@@ -170,12 +170,12 @@ export const Conversation = (props) => {
                 id,
                 setText,
                 shareImg,
-                setShareImg
-              );
+                setShareImg,
+              )
             }}
           />
         </ChatBoxContainer>
       </ChatBox>
     </Container>
-  );
-};
+  )
+}
