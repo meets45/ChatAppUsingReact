@@ -4,7 +4,10 @@ It has functionality such as SignUp/ SignIn of user using Email Address and user
 
 Note: _This app is not responsive._
 
-To use this app, clone the repository and in src directory create a "firebaseConfig.js" file and copy your firebase config code.
+## To use this app
+1. Clone the repository
+2. Run ```npm install``` command to install packages
+3. In src directory create a "firebaseConfig.js" file and copy your firebase config code.
 
 firebaseConfig.js
 ```javascript
