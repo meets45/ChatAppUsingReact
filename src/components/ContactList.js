@@ -87,21 +87,23 @@ export const ContactList = (props) => {
             <SearchInput placeholder="Search or start a new chat" />
           </SearchContainer>
         </SearchBox>
-        {!showContacts
-          ? contactList.map((data) => (
-              <ContactComponent
-                data={data}
-                key={data.id}
-                setSelectedChat={props.setSelectedChat}
-              />
-            ))
-          : contacts.map((data) => (
-              <ContactListComponent
-                data={data}
-                key={data.id}
-                setSelectedChat={props.setSelectedChat}
-              />
-            ))}
+        <div className="scrollbar1">
+          {!showContacts
+            ? contactList.map((data) => (
+                <ContactComponent
+                  data={data}
+                  key={data.id}
+                  setSelectedChat={props.setSelectedChat}
+                />
+              ))
+            : contacts.map((data) => (
+                <ContactListComponent
+                  data={data}
+                  key={data.id}
+                  setSelectedChat={props.setSelectedChat}
+                />
+              ))}
+        </div>
       </Container>
     </>
   );
