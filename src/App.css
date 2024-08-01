@@ -33,16 +33,34 @@ input.form-control:focus {
   background: #654ea3; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #654ea3,
-    #eaafc8
+    #553a9f,
+    #ef5e9a
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #654ea3,
-    #eaafc8
+    #553a9f,
+    #ef5e9a
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+.scrollbar1{
+  overflow-y: auto;
+}
+::-webkit-scrollbar {
+  width: 7.5px;
+}
 
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 .i {
   margin-left: -28px;
   color: #654ea3;
