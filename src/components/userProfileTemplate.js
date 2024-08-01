@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ImageModal } from "./ImageModal";
 import profile from "../assets/profile.png";
-import profileBackground from "../assets/fluid.png";
+import profileBackground from "../assets/drip.png";
 
 export const UserProfileTemplate = ({
   user,
@@ -101,7 +101,8 @@ export const UserProfileTemplate = ({
             </div>
           </div>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-1"></div>
+        <div className="col-md-5">
           <img className="img-fluid" src={profileBackground} alt="" />
         </div>
       </div>
